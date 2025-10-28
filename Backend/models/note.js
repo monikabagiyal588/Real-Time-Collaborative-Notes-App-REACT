@@ -1,10 +1,15 @@
-import { DataTypes } from 'sequelize';
-import sequelize from '../config/db.js';
+const { DataTypes } = require('sequelize');
+const sequelize = require('../config/db.js');
 
-const Note=sequelize.define('Note',{
-    // title:{type:DataTypes.STRING,allowNull:false},
-    note_id:{ type:DataTypes.STRING},
-    content:{type:DataTypes.TEXT},
-    updatedBy:{type:DataTypes.STRING}
+const Note = sequelize.define('Note', {
+  title: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  updatedAt: {
+    type: DataTypes.DATE,
+    defaultValue: DataTypes.NOW,
+  }
 });
-export default Note;
+
+module.exports = Note;

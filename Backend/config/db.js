@@ -1,4 +1,4 @@
-import {Sequelize}  from 'sequelize';
+const  Sequelize= require('sequelize');
 
 const sequelize = new Sequelize('notesdb','root','password',{
 host:'localhost',
@@ -9,5 +9,7 @@ sequelize.authenticate()
 .then(()=> console.log('Mysql database connected'))
 .catch((err)=>console.log(' Error:',err))
 
-export default sequelize;
+module.exports = sequelize;
+
+
 
