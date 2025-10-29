@@ -1,7 +1,6 @@
 import Note from '../models/note.js'
 
 export const getNotes = async (req, res) => {
-  console.log ('monika test get note')
   const notes = await Note.findAll();
   res.json(notes);
 };

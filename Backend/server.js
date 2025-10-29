@@ -39,7 +39,7 @@ io.on("connection", (socket) => {
   socket.on("addTask", (task) => {
     io.to(task.noteId).emit("taskAdded", task);
   });
-  // ✅ Save note to DB
+  // Save note to DB
   socket.on("saveNote", async ({ noteId, content }) => {
     await Note.update({ content, updatedAt: new Date() }, { where: { id: noteId } });
   });
@@ -53,7 +53,7 @@ io.on("connection", (socket) => {
   io.to(noteId).emit("taskUpdated", { taskId, ...updatedFields });
 });
 
-  // ✅ Handle user disconnect
+  //  Handle user disconnect
   socket.on("disconnecting", () => {
     for (const noteId of socket.rooms) {
       if (activeUsers[noteId]) {

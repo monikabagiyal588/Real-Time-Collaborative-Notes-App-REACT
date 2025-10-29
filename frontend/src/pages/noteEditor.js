@@ -15,14 +15,14 @@ export default function NoteEditor() {
   const [editedTitle, setEditedTitle] = useState("");
 
   useEffect(() => {
-    // ✅ Ask for username only once per session
+    //  Ask for username only once per session
     let name = sessionStorage.getItem("username");
     if (!name) {
       name = prompt("Enter your name");
       sessionStorage.setItem("username", name);
     }
 
-    // ✅ Join socket room
+    //  Join socket room
     socket.emit("joinNote", { noteId: id, username: name });
     socket.on("activeUsers", (users) => {
       setActiveUsers(users);
@@ -31,8 +31,7 @@ export default function NoteEditor() {
       setTasks((prev) => [...prev, task]);
     });
 
-    // socket.emit("addTask",'dlksal');
-    // ✅ Fetch note + tasks from backend
+    //  Fetch note + tasks from backend
     axios.get(`http://localhost:5000/api/notes/${id}`).then((res) => {
       setContent(res.data.content);
     });
@@ -58,14 +57,7 @@ export default function NoteEditor() {
     };
   }, [id]);
 
-  // ✅ When note content changes
-  const handleChange = (e) => {
-    const newContent = e.target.value;
-    setContent(newContent);
-    socket.emit("saveNote", { noteId: id, content: newContent });
-  };
-
-  // ✅ Add new task
+  //  Add new task
   const addTask = async () => {
     const res = await axios.post("http://localhost:5000/api/tasks", {
       title: newTask,
@@ -74,26 +66,6 @@ export default function NoteEditor() {
 
     socket.emit("addTask", res.data);
     setNewTask("");
-
-    //   try {
-    //     const res = await axios.post("http://localhost:5000/api/tasks", {
-    //       title: newTask,
-    //       noteId: id,
-    //     });
-
-    //     const createdTask = res.data;
-
-    //     // ✅ Update local state instantly
-    //     setTasks((prev) => [...prev, createdTask]);
-
-    //     // ✅ Emit to other connected clients
-    //     socket.emit("addTask", createdTask);
-    // console.log('createdTask',createdTask)
-    //     // ✅ Clear input field
-    //     setNewTask("");
-    //   } catch (error) {
-    //     console.error("Error adding task:", error);
-    //   }
   };
 
   const updateTask = async (taskId, updatedData) => {
